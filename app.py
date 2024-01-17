@@ -5,14 +5,12 @@ from YoutubeTags import videotags
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes in your Flask app
 
-@app.route('/get_video_tags', methods=['POST'])
+@app.route('/get_video_tags', methods=['GET'])
 def get_video_tags():
-    data = request.get_json()
+    link = request.args.get('link')
 
-    if 'link' not in data:
+    if link is None:
         return jsonify({'error': 'Missing link parameter'}), 400
-
-    link = data['link']
 
     try:
         tags = videotags(link)
